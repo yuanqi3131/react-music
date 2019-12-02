@@ -8,18 +8,25 @@ interface IProps {
 
 interface IState {
   commendList: any,
-  newSong: any
+  newSong: any,
+  // artists: any
 }
-interface ISonger {
-  artists: Array<Object>
+
+interface IArtists {
+  name: string
 }
+interface IAlbum {
+
+}
+
 class Recommend extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
   }
   public state = {
     commendList: [],
-    newSong: []
+    newSong: [],
+    // artists: []
   }
   componentDidMount() {
     this.getRecommendList()
@@ -35,8 +42,21 @@ class Recommend extends React.Component<IProps, IState> {
   async getNewSong() {
     // 获得推荐歌单
     let data = await reqNewSong();
+    // let result = new Array().concat(data)
+    // result = result.map(v => {
+    //   let artists = v.song.artists
+    //   if (artists.length > 1) {
+    //     let name = artists.reduce((total: string, current: any) => {
+    //       return total + current['name'] + '/'
+    //     }, '')
+    //     return name.substring(0, name.length - 1)
+    //   } else {
+    //     return artists[0].name
+    //   }
+    // })
     this.setState({
-      newSong: data
+      newSong: data,
+      // artists: data
     })
   }
   public handlerPlayNume(num: number) {
@@ -50,7 +70,7 @@ class Recommend extends React.Component<IProps, IState> {
   public render() {
     let { commendList, newSong } = this.state
     return (
-      <div>
+      <div className='recommend'>
         <section>
           <div className='header-tilte'>推荐歌单</div>
           <div className='recommend-items'>
@@ -69,26 +89,48 @@ class Recommend extends React.Component<IProps, IState> {
         </section>
         <section>
           <div className='header-tilte'>最新音乐</div>
-          <div>
+          <div className='new-items'>
             {
               newSong.map(item => {
                 return (
-                  <div key={item['id']}>
-                    <div>
-                      <div>{item['name']}</div>
-                      {
-                        1
-                        // item['song']['artists']:ISonger.map()
-                      }
+                  <div key={item['id']} className='new-item'>
+                    <div className='new-left'>
+                      <div className='new-title'>
+                        {item['name']}
+                        <span>
+                          {new Array().concat(item['song']['alias'])
+                            .reduce((total: any, current: string) => {
+                              return total = '(' + total + current + ')'
+                            }, '')
+                          }
+                        </span>
+                      </div>
+                      <div className='new-secTitle'>
+                        {
+                          new Array().concat(item['song']['artists']).reduce((total: any, current: object) => {
+                            return total = total + current['name'] + ' / '
+                          }, '').replace(/\s+\/\s+$/g, '') + '-' + item['song']['album']['name']
+                        }
+                      </div>
                     </div>
-                    <div></div>
+                    <div className='new-right'>
+                      <span></span>
+                    </div>
                   </div>
                 )
               })
             }
           </div>
         </section>
-        <footer>3</footer>
+        <footer className='recommend-footer'>
+          <div className='wrap-footer'>
+            <div className='footer-logo'>
+              <img src={require('../../assets/images/logo_red.png')} alt="" />
+              网易云音乐</div>
+            <div className='footer-app'>打开APP，发现更多好音乐 ></div>
+            <div className='footer-right'>网易公司版权所有©1997-2019   杭州乐读科技有限公司运营</div>
+          </div>
+        </footer>
       </div>
     )
   }

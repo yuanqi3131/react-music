@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './index.scss';
 interface IProps {
 
 }
@@ -8,7 +8,7 @@ interface IState { }
 class Search extends React.Component<IProps, IState> {
   public render() {
     return (
-      <div>Search</div>
+      <div className='search'>Search</div>
     )
   }
 }

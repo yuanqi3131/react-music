@@ -1,33 +1,47 @@
 .header {
-  width: 100%;
-  height: 1.5rem;
-  background-color: rgba(207, 66, 57, 1);
-  display: flex;
-  align-items: center;
   position: relative;
-  img {
-    width: 0.5rem;
-    height: 0.5rem;
-    margin: 0 0.1rem 0 0.2rem;
-  }
-  .header-middle {
-    font-size: 0.4rem;
-    color: #fff;
-  }
-  .header-right {
-    color: rgba(207, 66, 57, 1);
-    font-size: 0.3rem;
-    background: #fff;
-    padding: 0.15rem 0.3rem;
-    border-radius: 0.6rem;
-    position: absolute;
-    right: 0.2rem;
+  width: 100%;
+  height: 0;
+  padding-bottom: 1.5rem;
+  .wrap-header {
+    position: fixed;
+    z-index: 100;
+    background-color: #d43c33;
+    width: 100%;
+    height: 1.5rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    img {
+      width: 0.5rem;
+      height: 0.5rem;
+      margin: 0 0.1rem 0 0.2rem;
+    }
+    .header-middle {
+      font-size: 0.4rem;
+      color: #fff;
+    }
+    .header-right {
+      color: rgba(207, 66, 57, 1);
+      font-size: 0.3rem;
+      background: #fff;
+      padding: 0.15rem 0.3rem;
+      border-radius: 0.6rem;
+      position: absolute;
+      right: 0.2rem;
+    }
   }
 }
 .navHeader {
   display: flex;
   height: 0.8rem;
   border-bottom: 1px solid rgba(206, 206, 207, 1);
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 1.5rem;
+  z-index: 2;
+  background: #fff;
   .navHeader-item {
     display: flex;
     flex: 1;
