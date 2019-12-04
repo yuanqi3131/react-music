@@ -22,7 +22,7 @@ http.interceptors.response.use(
     if (data.code !== 200) {
       return Promise.reject(response)
     }
-    return Promise.resolve(data.result)
+    return Promise.resolve(data)
   },
   error => {
     let response = error.response

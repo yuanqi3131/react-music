@@ -1,6 +1,7 @@
 import React from 'react';
 import './index.scss';
 import { reqPersonalized, reqNewSong } from '../../api/interface';
+import MusicList from '../../components/musicList'
 
 interface IProps {
 
@@ -9,14 +10,6 @@ interface IProps {
 interface IState {
   commendList: any,
   newSong: any,
-  // artists: any
-}
-
-interface IArtists {
-  name: string
-}
-interface IAlbum {
-
 }
 
 class Recommend extends React.Component<IProps, IState> {
@@ -36,7 +29,7 @@ class Recommend extends React.Component<IProps, IState> {
     // 获得推荐歌单
     let data = await reqPersonalized({ limit: 6 });
     this.setState({
-      commendList: data
+      commendList: data['result']
     })
   }
   async getNewSong() {
@@ -55,7 +48,7 @@ class Recommend extends React.Component<IProps, IState> {
     //   }
     // })
     this.setState({
-      newSong: data,
+      newSong: data['result'],
       // artists: data
     })
   }
@@ -89,7 +82,8 @@ class Recommend extends React.Component<IProps, IState> {
         </section>
         <section>
           <div className='header-tilte'>最新音乐</div>
-          <div className='new-items'>
+          <MusicList list={newSong}></MusicList>
+          {/* <div className='new-items'>
             {
               newSong.map(item => {
                 return (
@@ -120,7 +114,7 @@ class Recommend extends React.Component<IProps, IState> {
                 )
               })
             }
-          </div>
+          </div> */}
         </section>
         <footer className='recommend-footer'>
           <div className='wrap-footer'>

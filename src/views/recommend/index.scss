@@ -41,44 +41,44 @@
       }
     }
   }
-  .new-items {
-    .new-item {
-      display: flex;
-      align-items: center;
-      margin-left: 0.2rem;
-      border: 0px solid rgba(0, 0, 0, 0.1);
-      border-bottom-width: 1px;
-      .new-left {
-        padding: 0.1rem 0;
-        display: flex;
-        flex-direction: column;
-        flex: 1 1 auto;
-        .new-title {
-          font-size: 0.32rem;
-          color: #333;
-          span {
-            color: #888;
-            margin-left: 0.1rem;
-          }
-        }
-        .new-secTitle {
-          font-size: 0.25rem;
-          color: #888;
-        }
-      }
-      .new-right {
-        display: flex;
-        padding: 0 0.1rem;
-        span {
-          background: url("../../assets/images/index_icon_2x.png") no-repeat;
-          background-position: -0.4rem 0;
-          width: 0.5rem;
-          height: 0.5rem;
-          background-size: 166px 97px;
-        }
-      }
-    }
-  }
+  // .new-items {
+  //   .new-item {
+  //     display: flex;
+  //     align-items: center;
+  //     margin-left: 0.2rem;
+  //     border: 0px solid rgba(0, 0, 0, 0.1);
+  //     border-bottom-width: 1px;
+  //     .new-left {
+  //       padding: 0.1rem 0;
+  //       display: flex;
+  //       flex-direction: column;
+  //       flex: 1 1 auto;
+  //       .new-title {
+  //         font-size: 0.32rem;
+  //         color: #333;
+  //         span {
+  //           color: #888;
+  //           margin-left: 0.1rem;
+  //         }
+  //       }
+  //       .new-secTitle {
+  //         font-size: 0.25rem;
+  //         color: #888;
+  //       }
+  //     }
+  //     .new-right {
+  //       display: flex;
+  //       padding: 0 0.1rem;
+  //       span {
+  //         background: url("../../assets/images/index_icon_2x.png") no-repeat;
+  //         background-position: -0.4rem 0;
+  //         width: 0.5rem;
+  //         height: 0.5rem;
+  //         background-size: 166px 97px;
+  //       }
+  //     }
+  //   }
+  // }
 
   .recommend-footer {
     background: url("../../assets/images/recommand_bg_3x.png") no-repeat;
@@ -117,7 +117,7 @@
       }
       .footer-right {
         color: #888;
-        font-size: 12px;
+        font-size: 0.15rem;
         line-height: 0.4rem;
         text-align: center;
         transform: scale(0.75);

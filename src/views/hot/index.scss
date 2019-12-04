@@ -1,3 +1,82 @@
 .hot {
   padding-top: 0.8rem;
+  .hot-header {
+    padding-top: 38.9%;
+    background: url("../../assets/images/hot_music_bg_3x.jpg") 0 0 / 100% 100% no-repeat;
+    position: relative;
+    .header-items {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 0.3rem;
+      .header-img {
+        background: url("../../assets/images/index_icon_2x.png") no-repeat;
+        width: 3rem;
+        height: 1.54rem;
+        background-size: 3.5rem 2rem;
+        background-position: -0.5rem -0.5rem;
+      }
+      .header-time {
+        font-size: 0.1rem;
+        color: #fff;
+        margin-top: 0.1rem;
+      }
+    }
+  }
+  .new-items {
+    .new-item {
+      display: flex;
+      align-items: center;
+      margin-left: 0.2rem;
+      border: 0px solid rgba(0, 0, 0, 0.1);
+      border-bottom-width: 1px;
+      .new-index {
+        display: flex;
+        flex: 0.1;
+        font-size: 0.3rem;
+      }
+      .new-left {
+        padding: 0.1rem 0;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        .new-title {
+          font-size: 0.3rem;
+          color: #333;
+          span {
+            color: #888;
+            margin-left: 0.1rem;
+          }
+        }
+        .new-secTitle {
+          font-size: 0.22rem;
+          color: #888;
+        }
+      }
+      .new-right {
+        display: flex;
+        padding: 0 0.1rem;
+        span {
+          background: url("../../assets/images/index_icon_2x.png") no-repeat;
+          background-position: -0.4rem 0;
+          width: 0.5rem;
+          height: 0.5rem;
+          background-size: 166px 97px;
+        }
+      }
+    }
+  }
+  .hot-footer {
+    font-size: 0.25rem;
+    color: #999;
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+  }
 }
