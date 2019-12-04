@@ -16,7 +16,7 @@ class Home extends React.Component<IProps, IState> {
     super(props)
   }
   public state = {
-    currentChoose: 1 // 当前选择 0 代表推荐音乐 1代表热歌榜 1 代表搜索
+    currentChoose: 0 // 当前选择 0 代表推荐音乐 1代表热歌榜 1 代表搜索
   }
   public changeNav(index: number) {
     let currentChoose = this.state.currentChoose

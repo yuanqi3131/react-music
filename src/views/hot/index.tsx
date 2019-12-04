@@ -1,7 +1,8 @@
 import React from 'react';
 import './index.scss';
 import { reqHotSong } from '../../api/interface';
-interface IProps {
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+interface IProps extends RouteComponentProps {
 }
 
 interface IState {
@@ -77,7 +78,7 @@ class Hot extends React.Component<IProps, IState> {
             }
           </div>
         </section>
-        <footer className='hot-footer'>
+        <footer className='hot-footer' onClick={() => this.props.history.push({ pathname: 'download' })}>
           查看完整榜单 >
         </footer>
       </div>
@@ -85,4 +86,4 @@ class Hot extends React.Component<IProps, IState> {
   }
 }
 
-export default Hot;
+export default withRouter(Hot);

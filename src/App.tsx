@@ -9,7 +9,7 @@ const App: React.FC = () => {
       <Switch>
         {
           Router.map((item, index) => {
-            return <Route path={item.path} key={index} component={item.component}></Route>
+            return <Route path={item.path} key={index} component={item.component} exact></Route>
           })
         }
       </Switch>

@@ -1,10 +1,10 @@
 import React from 'react';
 import './index.scss';
 import { reqPersonalized, reqNewSong } from '../../api/interface';
-import MusicList from '../../components/musicList'
+import MusicList from '../../components/musicList';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-interface IProps {
-
+interface IProps extends RouteComponentProps {
 }
 
 interface IState {
@@ -19,7 +19,6 @@ class Recommend extends React.Component<IProps, IState> {
   public state = {
     commendList: [],
     newSong: [],
-    // artists: []
   }
   componentDidMount() {
     this.getRecommendList()
@@ -35,21 +34,8 @@ class Recommend extends React.Component<IProps, IState> {
   async getNewSong() {
     // 获得推荐歌单
     let data = await reqNewSong();
-    // let result = new Array().concat(data)
-    // result = result.map(v => {
-    //   let artists = v.song.artists
-    //   if (artists.length > 1) {
-    //     let name = artists.reduce((total: string, current: any) => {
-    //       return total + current['name'] + '/'
-    //     }, '')
-    //     return name.substring(0, name.length - 1)
-    //   } else {
-    //     return artists[0].name
-    //   }
-    // })
     this.setState({
       newSong: data['result'],
-      // artists: data
     })
   }
   public handlerPlayNume(num: number) {
@@ -83,41 +69,9 @@ class Recommend extends React.Component<IProps, IState> {
         <section>
           <div className='header-tilte'>最新音乐</div>
           <MusicList list={newSong}></MusicList>
-          {/* <div className='new-items'>
-            {
-              newSong.map(item => {
-                return (
-                  <div key={item['id']} className='new-item'>
-                    <div className='new-left'>
-                      <div className='new-title'>
-                        {item['name']}
-                        <span>
-                          {new Array().concat(item['song']['alias'])
-                            .reduce((total: any, current: string) => {
-                              return total = '(' + total + current + ')'
-                            }, '')
-                          }
-                        </span>
-                      </div>
-                      <div className='new-secTitle'>
-                        {
-                          new Array().concat(item['song']['artists']).reduce((total: any, current: object) => {
-                            return total = total + current['name'] + ' / '
-                          }, '').replace(/\s+\/\s+$/g, '') + '-' + item['song']['album']['name']
-                        }
-                      </div>
-                    </div>
-                    <div className='new-right'>
-                      <span></span>
-                    </div>
-                  </div>
-                )
-              })
-            }
-          </div> */}
         </section>
         <footer className='recommend-footer'>
-          <div className='wrap-footer'>
+          <div className='wrap-footer' onClick={() => this.props.history.push({ pathname: 'download' })}>
             <div className='footer-logo'>
               <img src={require('../../assets/images/logo_red.png')} alt="" />
               网易云音乐</div>
@@ -130,4 +84,4 @@ class Recommend extends React.Component<IProps, IState> {
   }
 }
 
-export default Recommend;
+export default withRouter(Recommend);
