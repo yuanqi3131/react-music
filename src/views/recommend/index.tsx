@@ -44,6 +44,8 @@ class Recommend extends React.Component<IProps, IState> {
       return (num / 10000).toFixed(1) + '万'
     } else if (num > 99999999) {
       return (num / 100000000).toFixed(1) + '亿'
+    } else {
+      return num
     }
   }
   public render() {
