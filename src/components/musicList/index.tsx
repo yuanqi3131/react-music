@@ -1,7 +1,8 @@
 import React from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import './index.scss';
 
-interface IProps {
+interface IProps extends RouteComponentProps {
   list: Array<Object>
 }
 interface IState {
@@ -15,7 +16,7 @@ class List extends React.Component<IProps, IState> {
         {
           this.props.list.map(item => {
             return (
-              <div key={item['id']} className='new-item'>
+              <div key={item['id']} className='new-item' onClick={() => { this.props.history.push(`/play/${item['id']}`) }}>
                 <div className='new-left'>
                   <div className='new-title'>
                     {item['name']}
@@ -46,4 +47,4 @@ class List extends React.Component<IProps, IState> {
     )
   }
 }
-export default List
+export default withRouter(List)

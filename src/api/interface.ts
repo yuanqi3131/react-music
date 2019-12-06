@@ -13,3 +13,6 @@ export const reqHotDetail = () => get('/search/hot/detail'); // 请求热搜列�
 export const reqSearchSuggest = (obj: ISearch) => get('/search/suggest', obj); // 请求搜索建议
 export const reqSearch = (obj: ISearch) => get('/search', obj); // 请求搜索
 export const reqSearchMultimatch = (obj: ISearch) => get('/search/multimatch', obj); // 搜索多重匹配
+export const reqSongDetail = (obj) => get('/song/detail', obj); // 请求歌曲详情
+export const reqSongUrl = (obj) => get('/song/url', obj); // 请求音乐url
+export const reqLyric = (obj) => get('/lyric', obj); // 请求歌词

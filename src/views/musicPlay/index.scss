@@ -1,0 +1,163 @@
+.play {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  .play-header {
+    .header-bk {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-size: auto 100%;
+      background-repeat: no-repeat;
+      transform: scale(1.5);
+      height: 100%;
+      z-index: 1;
+      transform-origin: center top;
+      background-position: 50%;
+      filter: blur(0.1rem);
+      &::after {
+        content: " ";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+    }
+    .header-wrap {
+      height: 6.2rem;
+      width: 100%;
+      padding-top: 1.5rem;
+      position: relative;
+      &::after {
+        content: " ";
+        background: url("../../assets/images/needle-plus.png") no-repeat;
+        background-size: contain;
+        width: 2rem;
+        height: 2.85rem;
+        position: absolute;
+        top: 0rem;
+        left: 55%;
+        transform: translateX(-50%);
+        z-index: 2;
+      }
+      .header-disc {
+        position: absolute;
+        width: 83%;
+        height: 80%;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+        &::before {
+          background: url("../../assets/images/disc_light-plus.png"), url("../../assets/images/disc-plus.png") no-repeat;
+          position: absolute;
+          z-index: 2;
+          width: 6rem;
+          height: 6rem;
+          content: " ";
+          background-size: contain;
+        }
+        .header-content {
+          position: absolute;
+          z-index: 1;
+          img {
+            width: 4rem;
+          }
+          audio {
+            visibility: hidden;
+            position: absolute;
+            z-index: 0;
+          }
+        }
+      }
+    }
+  }
+  .play-content {
+    .content-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      position: relative;
+      z-index: 2;
+      margin-top: 0.4rem;
+      font-size: 0.35rem;
+      span {
+        color: hsla(0, 0%, 100%, 0.6);
+        font-size: 0.3rem;
+      }
+    }
+    .play-lyc {
+      position: relative;
+      z-index: 2;
+      color: hsla(0, 0%, 100%, 0.6);
+      height: 1.2rem;
+      overflow: hidden;
+      margin-top: 0.2rem;
+      font-size: 0.3rem;
+      .play-wrap-lyc {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease-out;
+        p {
+          margin: 0;
+          padding: 0.05rem 0 0.1rem;
+        }
+      }
+    }
+  }
+  .play-footer {
+    position: fixed;
+    bottom: 0.2rem;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    padding: 0 0.2rem;
+    display: flex;
+    height: 0.75rem;
+    color: #d33a31;
+    span {
+      display: flex;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #d33a31;
+      border-radius: 1rem;
+      &:last-child {
+        color: #fff;
+        background: #d33a31;
+        border: 0px solid #d33a31;
+        margin-left: 0.2rem;
+      }
+    }
+  }
+}
+
+.rotate-img {
+  animation: animations 20s linear infinite;
+  transform-origin: center center;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+@keyframes animations {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
