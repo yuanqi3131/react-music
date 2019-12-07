@@ -25,12 +25,18 @@
       flex-direction: column;
       align-items: center;
       position: relative;
-      .recommend-num {
+      .recommend-imgs {
         position: absolute;
         right: 0.1rem;
         top: 0;
-        color: #fff;
-        font-size: 12px;
+        display: flex;
+        .recommend-num {
+          color: #fff;
+          font-size: 12px;
+        }
+        .recommend-ear {
+          width: 0.25rem;
+        }
       }
       .recommend-img {
         width: 2.45rem;

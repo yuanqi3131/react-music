@@ -58,8 +58,11 @@ class Recommend extends React.Component<IProps, IState> {
             {
               commendList.map(item => {
                 return (
-                  <div className='recommend-item' key={item['id']}>
-                    <div className='recommend-num'>{this.handlerPlayNume(item['playCount'])}</div>
+                  <div className='recommend-item' onClick={() => { this.props.history.push(`/playlist/${item['id']}`) }} key={item['id']}>
+                    <div className='recommend-imgs'>
+                      <img className='recommend-ear' src={require('../../assets/svg/ear.svg')} alt="" />
+                      <div className='recommend-num'>{this.handlerPlayNume(item['playCount'])}</div>
+                    </div>
                     <img className='recommend-img' src={item['picUrl']} alt="" />
                     <span className='recommend-desc'>{item['name']}</span>
                   </div>

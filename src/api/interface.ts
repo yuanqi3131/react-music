@@ -18,3 +18,4 @@ export const reqSongUrl = (obj) => get('/song/url', obj); // 请求音乐url
 export const reqLyric = (obj) => get('/lyric', obj); // 请求歌词
 export const reqSimi = (obj) => get('/simi/playlist', obj); // 请求相似歌单
 export const reqSimiSong = (obj) => get('/simi/song', obj); // 请求相似歌曲
+export const reqListDetail = (obj) => get('/playlist/detail', obj); // 请求歌单详情

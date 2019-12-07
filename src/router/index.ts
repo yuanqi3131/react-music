@@ -1,6 +1,7 @@
 import Home from '../views/home';
 import Download from '../views/download';
 import MusicPlay from '../views/musicPlay';
+import PlayList from '../views/songList';
 
 let router = [
   {
@@ -14,6 +15,10 @@ let router = [
   {
     path: '/play/:id', // 播放页
     component: MusicPlay
+  },
+  {
+    path: '/playlist/:id', // 歌单列表页
+    component: PlayList
   },
 ]
 
