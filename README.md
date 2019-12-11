@@ -2,7 +2,7 @@
 
 （注：本项目根目录下的img文件夹下的图片仅供git readme展示，与项目无关）
 
-### 1、项目介绍（图片未加载成功，建议翻墙）（也可以查看我的博客 地址为 https://blog.csdn.net/yuanqi3131/article/details/103494761）
+### 1、项目介绍（图片未加载成功，建议翻墙）（也可以查看我的博客 地址为 https://blog.csdn.net/yuanqi3131/article/details/103494761
 
 1）说明：本系统为react+typescript构建移动端网易云音乐
 
