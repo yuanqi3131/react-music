@@ -2,6 +2,19 @@
   "name": "react-music",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Qi Yuan",
+    "email": "838913982@qq.com",
+    "url": "https://blog.csdn.net/yuanqi3131"
+  },
+  "description": "react+typescript构建移动端网易云",
+  "keywords": [
+    "react",
+    "typescript",
+    "axios",
+    "react-router-dom",
+    "sass"
+  ],
   "dependencies": {
     "@types/jest": "24.0.23",
     "@types/node": "12.12.14",
