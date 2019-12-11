@@ -3,7 +3,7 @@ import './index.scss';
 import { reqPersonalized, reqNewSong } from '../../api/interface';
 import MusicList from '../../components/musicList';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-
+import { handlerPlayNume } from '../../utils/handlerData';
 interface IProps extends RouteComponentProps {
 }
 
@@ -38,16 +38,16 @@ class Recommend extends React.Component<IProps, IState> {
       newSong: data['result'],
     })
   }
-  public handlerPlayNume(num: number) {
-    // 处理播放数量
-    if (num > 99999 && num <= 99999999) {
-      return (num / 10000).toFixed(1) + '万'
-    } else if (num > 99999999) {
-      return (num / 100000000).toFixed(1) + '亿'
-    } else {
-      return num
-    }
-  }
+  // public handlerPlayNume(num: number) {
+  //   // 处理播放数量
+  //   if (num > 99999 && num <= 99999999) {
+  //     return (num / 10000).toFixed(1) + '万'
+  //   } else if (num > 99999999) {
+  //     return (num / 100000000).toFixed(1) + '亿'
+  //   } else {
+  //     return num
+  //   }
+  // }
   public render() {
     let { commendList, newSong } = this.state
     return (
@@ -61,7 +61,7 @@ class Recommend extends React.Component<IProps, IState> {
                   <div className='recommend-item' onClick={() => { this.props.history.push(`/playlist/${item['id']}`) }} key={item['id']}>
                     <div className='recommend-imgs'>
                       <img className='recommend-ear' src={require('../../assets/svg/ear.svg')} alt="" />
-                      <div className='recommend-num'>{this.handlerPlayNume(item['playCount'])}</div>
+                      <div className='recommend-num'>{handlerPlayNume(item['playCount'])}</div>
                     </div>
                     <img className='recommend-img' src={item['picUrl']} alt="" />
                     <span className='recommend-desc'>{item['name']}</span>

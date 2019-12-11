@@ -1,7 +1,9 @@
 import React from 'react';
 import { reqSongDetail, reqSongUrl, reqLyric, reqSimi, reqSimiSong } from '../../api/interface';
+import { handlerPlayNume } from '../../utils/handlerData';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import './index.scss'
-interface IProps {
+interface IProps extends RouteComponentProps {
 }
 
 interface IState {
@@ -23,7 +25,7 @@ class MusicPlay extends React.Component<IProps, IState> {
     super(props)
   }
   componentWillMount() {
-    let id = this.props['match'].params.id
+    let id = this.props['match']['params']['id']
     this.getSongDetail(id)
     this.getSongUrl(id)
     this.getLyric(id)
@@ -57,20 +59,22 @@ class MusicPlay extends React.Component<IProps, IState> {
   public async getLyric(id: number) { // 获得歌词
     let result = await reqLyric({ id })
     let lyricList = this.state.lyricList
-    result['lrc']['lyric'].split(/[\n]/)
-      .forEach(item => {
-        let temp: Array<string> = item.split(/\[(.+?)\]/)
-        lyricList.push(
-          {
-            time: temp[1],
-            lyc: temp[2]
-          })
+    if (result['lrc']) {
+      result['lrc']['lyric'].split(/[\n]/)
+        .forEach(item => {
+          let temp: Array<string> = item.split(/\[(.+?)\]/)
+          lyricList.push(
+            {
+              time: temp[1],
+              lyc: temp[2]
+            })
+        })
+      lyricList = lyricList.filter(v => v['lyc'])
+      this.setState({
+        lyric: result['lrc']['lyric'],
+        lyricList
       })
-    lyricList = lyricList.filter(v => v['lyc'])
-    this.setState({
-      lyric: result['lrc']['lyric'],
-      lyricList
-    })
+    }
   }
   public async getSimi(id: number) {
     let result = await reqSimi({ id })
@@ -153,16 +157,6 @@ class MusicPlay extends React.Component<IProps, IState> {
     let second = (interval % 60).toString().padStart(2, '0')
     return `${minute}:${second}`
   }
-  public handlerPlayNume(num: number) {
-    // 处理播放数量
-    if (num > 99999 && num <= 99999999) {
-      return (num / 10000).toFixed(1) + '万'
-    } else if (num > 99999999) {
-      return (num / 100000000).toFixed(1) + '亿'
-    } else {
-      return num
-    }
-  }
   public render() {
     let { detail, url, lyricList, lycStyle, currentLyc, showPlay, playState, simiList } = this.state
     var background = {
@@ -216,7 +210,7 @@ class MusicPlay extends React.Component<IProps, IState> {
             </div>
           </div>
           <div className='view-all'>
-            <div className='all-desc'>查看完整歌词></div>
+            <div className='all-desc' onClick={() => this.props.history.push({ pathname: '/download' })}>查看完整歌词></div>
             <div className='all-img'></div>
           </div>
           <div className='simi-content'>
@@ -228,7 +222,7 @@ class MusicPlay extends React.Component<IProps, IState> {
                     <div className='simi-item' key={item['id']}>
                       <div className='simi-imgs'>
                         <img className='simi-ear' src={require('../../assets/svg/ear.svg')} alt="" />
-                        <div className='simi-num'>{this.handlerPlayNume(item['playCount'])}</div>
+                        <div className='simi-num'>{handlerPlayNume(item['playCount'])}</div>
                       </div>
                       <img className='simi-img' src={item['coverImgUrl']} alt="" />
                       <span className='simi-desc'>{item['name']}</span>
@@ -241,7 +235,7 @@ class MusicPlay extends React.Component<IProps, IState> {
           </div>
         </div>
         <footer className='play-footer'>
-          <span>打开</span>
+          <span onClick={() => this.props.history.push({ pathname: '/download' })}>打开</span>
           <span>下载</span>
         </footer>
       </div>
@@ -249,4 +243,4 @@ class MusicPlay extends React.Component<IProps, IState> {
   }
 }
 
-export default MusicPlay
+export default withRouter(MusicPlay)

@@ -42,11 +42,12 @@
         font-size: 0.3rem;
       }
       .new-left {
-        padding: 0.1rem 0;
+        padding: 0.15rem 0;
         display: flex;
         flex-direction: column;
         flex: 1;
         .new-title {
+          margin-bottom: 0.05rem;
           font-size: 0.3rem;
           color: #333;
           span {
@@ -64,7 +65,7 @@
         padding: 0 0.1rem;
         span {
           background: url("../../assets/images/index_icon_2x.png") no-repeat;
-          background-position: -0.4rem 0;
+          background-position: -0.45rem 0;
           width: 0.5rem;
           height: 0.5rem;
           background-size: 166px 97px;

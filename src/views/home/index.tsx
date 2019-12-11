@@ -4,7 +4,8 @@ import Logo from '../../assets/images/logo.png';
 import Recommend from '../recommend';
 import Hot from '../hot';
 import Search from '../search';
-interface IProps {
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+interface IProps extends RouteComponentProps {
 
 }
 
@@ -38,7 +39,7 @@ class Home extends React.Component<IProps, IState> {
     return (
       <div>
         <header className='header'>
-          <div className='wrap-header'>
+          <div className='wrap-header' onClick={() => this.props.history.push({ pathname: '/download' })}>
             <img src={Logo} />
             <div className='header-middle'>网易云音乐</div>
             <div className='header-right'>下载APP</div>
@@ -63,4 +64,4 @@ class Home extends React.Component<IProps, IState> {
   }
 }
 
-export default Home;
+export default withRouter(Home);

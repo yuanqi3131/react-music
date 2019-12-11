@@ -1,8 +1,9 @@
 import React from 'react';
 import './index.scss';
 import { reqHotDetail, reqSearchSuggest, reqSearch, reqSearchMultimatch } from '../../api/interface';
-import { setLocaStorage, getLocaStorage } from '../../utils/locaStorage'
-interface IProps {
+import { setLocaStorage, getLocaStorage } from '../../utils/locaStorage';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+interface IProps extends RouteComponentProps {
 
 }
 
@@ -14,14 +15,18 @@ interface IState {
   searchList: any, //搜索列表
   searchMultimatch: object, // 多重匹配
   status: number, // 状态用于区分不同区域的展示 0 代表原始状态 1代表出现 搜索建议 2 代表搜索列表
-  searchHistory?: Array<object>, // 搜索历史
+  searchHistory: Array<object>, // 搜索历史
+  showLoading: boolean, // 展示加载loading
+  limit: number,
+  offset: number,
+  showFee: boolean, // 展示付费
 }
 class Search extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
   }
 
-  public state = {
+  public state: IState = {
     hotDetail: [],
     showClose: false,
     searchSuggest: [],
@@ -29,7 +34,11 @@ class Search extends React.Component<IProps, IState> {
     searchList: [],
     searchMultimatch: {},
     status: 0,
-    searchHistory: []
+    searchHistory: [],
+    showLoading: false,
+    limit: 20,
+    offset: 0,
+    showFee: false
   }
 
   componentWillMount() {
@@ -40,9 +49,11 @@ class Search extends React.Component<IProps, IState> {
   }
   componentDidMount() {
     document.addEventListener('keydown', this.search.bind(this)) // 添加回车事件
+    document.addEventListener('scroll', this.scroll.bind(this))
   }
   componentWillUnmount() {
     document.removeEventListener('keydown', this.search.bind(this)) // 页面销毁 移除事件
+    document.removeEventListener('scroll', this.scroll.bind(this))
   }
   public getSearchHistory() {
     let history = getLocaStorage('search_history')
@@ -53,7 +64,8 @@ class Search extends React.Component<IProps, IState> {
       let searchValue = this.state.searchValue
       if (!searchValue) return;
       this.setState({
-        status: 2
+        status: 2,
+        searchList: []
       })
       let history = this.getSearchHistory()
       for (let i = 0; i < history.length; i++) { // 去除相同的搜索
@@ -64,8 +76,22 @@ class Search extends React.Component<IProps, IState> {
       }
       history.splice(0, 0, { searchValue })
       setLocaStorage('search_history', history)
-      this.getSearchList(searchValue)
+      this.getSearchList()
       this.getSearchMultimatch(searchValue)
+    }
+  }
+  public scroll() { // 监听滚动
+    let ele = document.documentElement; // 获得html
+    let scrollTop = ele.scrollTop; // 向上滚动的高度
+    let scrollHeight = ele.scrollHeight; // 滚动内容区域总高度
+    let clientHeight = ele.clientHeight; // 可见高度
+    let { showClose, offset } = this.state
+    if (showClose && clientHeight + scrollTop >= scrollHeight) {
+      this.setState({
+        offset: ++offset
+      }, () => {
+        this.getSearchList()
+      })
     }
   }
   public async getHotDetail() {
@@ -76,7 +102,6 @@ class Search extends React.Component<IProps, IState> {
     })
   }
   public async inputChange(event: any) {
-    // 获取搜索建议
     let value = event.target.value
     this.setState({
       searchValue: value
@@ -103,11 +128,12 @@ class Search extends React.Component<IProps, IState> {
       searchSuggest: result['result']['songs']
     })
   }
-  public async getSearchList(value: string) {
+  public async getSearchList() {
     // 获得搜索列表
-    let result = await reqSearch({ keywords: value })
+    let { limit, offset, searchList, searchValue } = this.state
+    let result = await reqSearch({ keywords: searchValue, limit, offset })
     this.setState({
-      searchList: result['result']['songs']
+      searchList: searchList.concat(result['result']['songs'])
     })
   }
   public async getSearchMultimatch(value: string) { // 获得多重匹配列表
@@ -129,12 +155,38 @@ class Search extends React.Component<IProps, IState> {
       searchValue: '',
       showClose: false,
       status: 0,
-      searchHistory: this.getSearchHistory()
+      searchHistory: this.getSearchHistory(),
+      searchList: []
     })
     this.getHotDetail()
   }
+  public clickSearch(keyword: string) {
+    this.setState({
+      searchValue: keyword,
+      showClose: true
+    }, () => {
+      this.search('click')
+    })
+  }
+  public goToPlay(item) {
+    if (item['fee'] === 4 || item['fee'] === 1) {
+      // 收费
+      this.setState({
+        showFee: true
+      })
+      return
+    }
+    this.props.history.push(`/play/${item['id']}`)
+  }
+  public closeFee(e) {
+    // 关闭收费框
+    this.setState({
+      showFee: false
+    })
+  }
   public render() {
-    let { hotDetail, showClose, searchSuggest, searchValue, status, searchList, searchMultimatch, searchHistory } = this.state
+    let { hotDetail, showClose, searchSuggest, searchValue, status,
+      searchList, searchMultimatch, searchHistory, showLoading, showFee } = this.state
     return (
       <div className='search'>
         <header className='search-header'>
@@ -158,7 +210,7 @@ class Search extends React.Component<IProps, IState> {
                     {
                       hotDetail.map((item, index) => {
                         return (
-                          <div className='hot-item' key={index}>
+                          <div className='hot-item' onClick={() => this.clickSearch(item['searchWord'])} key={index}>
                             {item['searchWord']}
                           </div>
                         )
@@ -170,7 +222,7 @@ class Search extends React.Component<IProps, IState> {
                   {
                     searchHistory.map((item: object, index: number) => {
                       return (
-                        <div className='history-item' key={index}>
+                        <div className='history-item' onClick={() => this.clickSearch(item['searchValue'])} key={index}>
                           <div className='history-left'>
                             <img src={require('../../assets/svg/history.svg')} alt="" />
                           </div>
@@ -230,6 +282,26 @@ class Search extends React.Component<IProps, IState> {
                 </div>
                 <div className='search-top1'>
                   {
+                    searchMultimatch['album'] ? searchMultimatch['album'].map(item => {
+                      return (
+                        <div className='top1-items' key={item['id']}>
+                          <div className='items-left'>
+                            <img src={item['picUrl']} alt="" />
+                          </div>
+                          <div className='items-content'>
+                            <div>专辑：<span dangerouslySetInnerHTML={{ __html: this.setHighLight(item['name']) }}></span> {item['alias'].map((item: string, index: number) => { return (<span key={index} dangerouslySetInnerHTML={{ __html: this.setHighLight(item) }}></span>) })}</div>
+                            <div dangerouslySetInnerHTML={{ __html: this.setHighLight(item['artist']['name']) }} className='content-songer'></div>
+                          </div>
+                          <div className='items-right'>
+                            <img src={require('../../assets/svg/arrow.svg')} alt="" />
+                          </div>
+                        </div>
+                      )
+                    }) : null
+                  }
+                </div>
+                <div className='search-top1'>
+                  {
                     searchMultimatch['artist'] ? searchMultimatch['artist'].map(item => {
                       return (
                         <div className='top1-items' key={item['id']}>
@@ -237,7 +309,7 @@ class Search extends React.Component<IProps, IState> {
                             <img src={item['img1v1Url']} alt="" />
                           </div>
                           <div className='items-content'>
-                            <div>歌手：<span dangerouslySetInnerHTML={{ __html: this.setHighLight(item['name']) }}></span> ({item['alias'].map((item: string, index: number) => { return (<span key={index} dangerouslySetInnerHTML={{ __html: this.setHighLight(item) }}></span>) })})</div>
+                            <div>歌手：<span dangerouslySetInnerHTML={{ __html: this.setHighLight(item['name']) }}></span> {item['alias'].map((item: string, index: number) => { return (<span key={index} dangerouslySetInnerHTML={{ __html: this.setHighLight(item) }}></span>) })}</div>
                           </div>
                           <div className='items-right'>
                             <img src={require('../../assets/svg/arrow.svg')} alt="" />
@@ -249,9 +321,9 @@ class Search extends React.Component<IProps, IState> {
                 </div>
                 <div className='new-items'>
                   {
-                    searchList.map((item: object) => {
+                    searchList.map((item: object, index: number) => {
                       return (
-                        <div key={item['id']} className='new-item'>
+                        <div key={index} className='new-item' onClick={() => { this.goToPlay(item) }}>
                           <div className='new-left'>
                             <div className='new-title'>
                               <span dangerouslySetInnerHTML={{ __html: this.setHighLight(item['name']) }}></span>
@@ -281,14 +353,39 @@ class Search extends React.Component<IProps, IState> {
                     })
                   }
                 </div>
+                {
+                  showLoading ?
+                    <div className='loading'>
+                      <img src={require('../../assets/images/loading.gif')} alt="" />
+                      <span>正在加载...</span>
+                    </div>
+                    : null
+                }
               </div>
               : null
           }
         </main>
-        <footer></footer>
+        {
+          showFee ?
+            <div>
+              <div className='mask' onClick={(e) => { this.closeFee(e) }}>
+              </div>
+              <div className='mask-content'>
+                <div className='content-header'>
+                  <img className='content-bk' src={require('../../assets/images/fee.png')} alt="" />
+                  <img onClick={(e) => { this.closeFee(e) }} className='content-close' src={require('../../assets/svg/close.svg')} alt="" />
+                </div>
+                <div className='content-content'>
+                  <div>唱片公司要求该歌曲须付费，开通音乐包后即可畅听~</div>
+                  <div className='content-button' onClick={() => this.props.history.push({ pathname: '/download' })}>立即开通</div>
+                </div>
+              </div>
+            </div>
+            : null
+        }
       </div>
     )
   }
 }
 
-export default Search;
+export default withRouter(Search);
